@@ -47,7 +47,7 @@ CREATE DATABASE root OWNER root;
 
 __Note__: Be sure to change the username/password to something more secure.
 
-```sh
+```
 \q
 sudo docker stop postgres_setup
 sudo docker rm postgres_setup
@@ -97,7 +97,7 @@ psql -h "$host" -U root template1
 Occassionally you may need to modify the configuration & restart.
 Simply make the desired config changes & restart the container.
 
-```sh
+```
 sudo vim /opt/pgdata/postgresql.conf
 sudo vim /opt/pgdata/pg_hba.conf
 sudo docker restart postgres
@@ -107,7 +107,7 @@ sudo docker restart postgres
 
 __Note__: This is only for those wanting to build the image themselves.
 
-```sh
+```
 git clone https://github.com/hopsoft/docker-postgres.git
 cd docker-postgres
 vagrant up
