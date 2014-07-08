@@ -69,12 +69,10 @@ sudo vim /opt/pgdata/pg_hba.conf
 # TYPE    DATABASE        USER            ADDRESS                 METHOD
 # host    all             postgres        0.0.0.0/0               trust
 #
-# add the following line(s)
+# add one of the following line(s) (the second is more secure)
 # TYPE    DATABASE        USER            ADDRESS                 METHOD
+# host    all             root            0.0.0.0/0               md5
 # host    all             root            HOST_IP_ADDRESS/32      md5
-#
-# TYPE    DATABASE        USER            ADDRESS                 METHOD
-# host    all             root            OTHER_IP_ADDRESS/32     md5
 ```
 
 #### Fifth, start the container for production use
