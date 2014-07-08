@@ -12,3 +12,4 @@ if [[ -z "$(ls -A /pgdata)" ]]; then
 fi
 
 chown -R postgres:postgres /pgdata
+touch /root/.psql_history

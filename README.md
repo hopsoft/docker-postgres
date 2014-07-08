@@ -36,8 +36,8 @@ __Warning__: The above configuration allows anyone to connect as the postgres su
 
 ```
 sudo docker start postgres_setup
-host="$(sudo docker inspect postgres_setup | grep IPAddress | cut -d '"' -f 4)"
-psql -h "$host" -U postgres
+container_ip="$(sudo docker inspect postgres_setup | grep IPAddress | cut -d '"' -f 4)"
+psql -h "$container_ip" -U postgres
 ```
 
 ```sql
@@ -85,8 +85,8 @@ sudo docker run --name postgres -d -p :5432 -v /opt/pgdata:/pgdata hopsoft/postg
 ```
 
 ```
-host="$(sudo docker inspect postgres | grep IPAddress | cut -d '"' -f 4)"
-psql -h "$host" -U root template1
+container_ip="$(sudo docker inspect postgres | grep IPAddress | cut -d '"' -f 4)"
+psql -h "$container_ip" -U root template1
 \q
 ```
 
