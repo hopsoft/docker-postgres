@@ -86,7 +86,7 @@ sudo docker run --name postgres -d -p :5432 -v /opt/pgdata:/pgdata hopsoft/postg
 
 ```
 container_ip="$(sudo docker inspect postgres | grep IPAddress | cut -d '"' -f 4)"
-psql -h "$container_ip" -U root template1
+psql -h "$container_ip" -U root
 \q
 ```
 
