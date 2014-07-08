@@ -34,7 +34,7 @@ __Warning__: The above configuration allows anyone to connect as the postgres su
 
 #### Third, start the container & create a superuser
 
-```sh
+```
 sudo docker start postgres_setup
 host="$(sudo docker inspect postgres_setup | grep IPAddress | cut -d '"' -f 4)"
 psql -h "$host" -U postgres
@@ -86,7 +86,7 @@ sudo docker run --name postgres -d -p 5432:5432 -v /opt/pgdata:/pgdata hopsoft/p
 sudo docker run --name postgres -d -p :5432 -v /opt/pgdata:/pgdata hopsoft/postgres
 ```
 
-```sh
+```
 host="$(sudo docker inspect postgres | grep IPAddress | cut -d '"' -f 4)"
 psql -h "$host" -U root template1
 \q
@@ -108,7 +108,7 @@ sudo docker restart postgres
 __Note__: This is only for those wanting to build the image themselves.
 
 ```sh
-git clone ?
+git clone https://github.com/hopsoft/docker-postgres.git
 cd docker-postgres
 vagrant up
 sudo docker build -t hopsoft/postgres /vagrant
