@@ -27,6 +27,9 @@ cp /opt/hopsoft/postgres/my_init.d/01_init_postgres.sh /etc/my_init.d/01_init_po
 mkdir -p /etc/service/postgres
 cp /opt/hopsoft/postgres/daemons/postgres.sh /etc/service/postgres/run
 
+cp /opt/hopsoft/postgres/logrotate /etc/logrotate.d/postgres
+chmod 644 /etc/logrotate.d/postgres
+
 apt-get clean
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

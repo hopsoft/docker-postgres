@@ -53,7 +53,16 @@ sudo docker stop postgres_setup
 sudo docker rm postgres_setup
 ```
 
-#### Fourth, modify the configuration files for production use
+#### Fourth, start the container for production use
+
+```sh
+sudo docker run --name postgres -d -p 5432:5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
+
+# optionally run with a random host port (perhaps a little more secure)
+sudo docker run --name postgres -d -p :5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
+```
+
+#### Fifth, modify the configuration files for production use
 
 ```sh
 sudo vim /opt/pgdata/postgresql.conf
@@ -76,30 +85,14 @@ sudo vim /opt/pgdata/pg_hba.conf
 # host    all             root            HOST_IP_ADDRESS/32      md5
 ```
 
-#### Fifth, start the container for production use
-
-```sh
-sudo docker run --name postgres -d -p 5432:5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
-
-# optionally run with a random host port (perhaps a little more secure)
-sudo docker run --name postgres -d -p :5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
+```
+docker restart postgres
 ```
 
 ```
 container_ip="$(sudo docker inspect postgres | grep IPAddress | cut -d '"' -f 4)"
 psql -h "$container_ip" -U root
 \q
-```
-
-## Restarting the container
-
-Occassionally you may need to modify the configuration & restart.
-Simply make the desired config changes & restart the container.
-
-```
-sudo vim /opt/pgdata/postgresql.conf
-sudo vim /opt/pgdata/pg_hba.conf
-sudo docker restart postgres
 ```
 
 ## Building the image
