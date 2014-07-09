@@ -9,7 +9,7 @@ No users have been created for you.
 
 ```sh
 sudo mkdir /opt/pgdata
-sudo docker run --name postgres_setup -d -p :5432 -v /opt/pgdata:/pgdata hopsoft/postgres
+sudo docker run --name postgres_setup -d -p :5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
 sudo docker stop postgres_setup
 ```
 
@@ -58,7 +58,8 @@ sudo docker rm postgres_setup
 ```sh
 sudo vim /opt/pgdata/postgresql.conf
 
-# optionally set the following... it will tighten security
+# optionally set the following
+# it will tighten security by only allowing the host to connect
 # listen_addresses = 'CONTAINER_IP_ADDRESS'
 ```
 
@@ -69,7 +70,7 @@ sudo vim /opt/pgdata/pg_hba.conf
 # TYPE    DATABASE        USER            ADDRESS                 METHOD
 # host    all             postgres        0.0.0.0/0               trust
 #
-# add one of the following line(s) (the second is more secure)
+# add one of the following line(s)... the second is more secure
 # TYPE    DATABASE        USER            ADDRESS                 METHOD
 # host    all             root            0.0.0.0/0               md5
 # host    all             root            HOST_IP_ADDRESS/32      md5
@@ -78,10 +79,10 @@ sudo vim /opt/pgdata/pg_hba.conf
 #### Fifth, start the container for production use
 
 ```sh
-sudo docker run --name postgres -d -p 5432:5432 -v /opt/pgdata:/pgdata hopsoft/postgres
+sudo docker run --name postgres -d -p 5432:5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
 
 # optionally run with a random host port (perhaps a little more secure)
-sudo docker run --name postgres -d -p :5432 -v /opt/pgdata:/pgdata hopsoft/postgres
+sudo docker run --name postgres -d -p :5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
 ```
 
 ```
