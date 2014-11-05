@@ -23,7 +23,7 @@ _No roles/users or databases have been created._
 
 1. Update the config files
 
-   Note: This config setup is insecure & temporary. We only use it to create a superuser.
+   _This config setup is insecure & temporary. We only use it to create a superuser._
 
     ```sh
     vim /opt/pgdata/postgresql.conf
@@ -54,7 +54,7 @@ _No roles/users or databases have been created._
     \q
     ```
 
-   Note: Be sure to change the username/password to something more secure.
+   _Be sure to change the username/password to something more secure._
 
 1. Stop & remove the setup container
 
@@ -118,11 +118,22 @@ _No roles/users or databases have been created._
 
 ## Building the Image
 
-__Note__: This is only for those wanting to build the image themselves.
+For those who want to build the image manually.
 
+## Linux
+
+```sh
+git clone https://github.com/hopsoft/docker-postgres.git
+cd docker-postgres
+docker build -t hopsoft/postgres /vagrant
 ```
+
+### OSX
+
+```sh
 git clone https://github.com/hopsoft/docker-postgres.git
 cd docker-postgres
 vagrant up
-docker build -t hopsoft/postgres /vagrant
+vagrant ssh
+sudo docker build -t hopsoft/postgres /vagrant
 ```
