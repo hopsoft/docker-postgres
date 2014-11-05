@@ -1,7 +1,8 @@
 # Trusted Docker Image for PostgreSQL
 
 This image contains a basic install of [PostgreSQL](http://www.postgresql.org/)
-with [PostGIS](http://postgis.net/) & [pgRouting](http://pgrouting.org/).
+with [contrib](http://www.postgresql.org/docs/9.3/static/contrib.html),
+[PostGIS](http://postgis.net/), & [pgRouting](http://pgrouting.org/).
 
 _No roles/users or databases have been created._
 
