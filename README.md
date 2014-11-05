@@ -17,8 +17,8 @@ _No roles/users or databases have been created._
 1. Start & stop the container to create the `pgdata` files
 
     ```sh
-    docker run --name postgres_setup -d -p :5432 -v /path/to/pgdata:/pgdata hopsoft/postgres:9.3
-    docker stop postgres_setup
+    docker run --name pg_setup -d -p :5432 -v /path/to/pgdata:/pgdata hopsoft/postgres:9.3
+    docker stop pg_setup
     ```
 
 1. Update the config files
@@ -43,8 +43,8 @@ _No roles/users or databases have been created._
 1. Start the container & create a superuser
 
     ```sh
-    docker start postgres_setup
-    container_ip="$(docker inspect postgres_setup | grep IPAddress | cut -d '"' -f 4)"
+    docker start pg_setup
+    container_ip="$(docker inspect pg_setup | grep IPAddress | cut -d '"' -f 4)"
     psql -h "$container_ip" -U postgres
     ```
 
@@ -58,8 +58,8 @@ _No roles/users or databases have been created._
 1. Stop & remove the setup container
 
     ```sh
-    docker stop postgres_setup
-    docker rm -v postgres_setup
+    docker stop pg_setup
+    docker rm -v pg_setup
     ```
 
 ## Production Use
@@ -90,13 +90,13 @@ _No roles/users or databases have been created._
 1. Start the container for production use
 
     ```sh
-    docker run --name postgres -d -p 5432:5432 -v /path/to/pgdata:/pgdata hopsoft/postgres:9.3
+    docker run --name pg -d -p 5432:5432 -v /path/to/pgdata:/pgdata hopsoft/postgres:9.3
     ```
 
 1. Connect to postgres
 
     ```sh
-    container_ip="$(docker inspect postgres | grep IPAddress | cut -d '"' -f 4)"
+    container_ip="$(docker inspect pg | grep IPAddress | cut -d '"' -f 4)"
     psql -h "$container_ip" -U root
     ```
 
@@ -112,7 +112,7 @@ _No roles/users or databases have been created._
 1. Restart the container
 
     ```sh
-    docker restart postgres
+    docker restart pg
     ```
 
 ## Building the Image
