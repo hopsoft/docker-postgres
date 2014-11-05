@@ -67,14 +67,6 @@ _No roles/users or databases have been created._
 1. Modify the configuration files for production use
 
     ```sh
-    vim /path/to/pgdata/postgresql.conf
-
-    # optionally set the following
-    # it will tighten security by only allowing the host to connect
-    # listen_addresses = 'CONTAINER_IP_ADDRESS'
-    ```
-
-    ```sh
     vim /path/to/pgdata/pg_hba.conf
 
     # delete this line
@@ -85,6 +77,16 @@ _No roles/users or databases have been created._
     # TYPE    DATABASE        USER            ADDRESS                 METHOD
     # host    all             root            0.0.0.0/0               md5
     # host    all             root            HOST_IP_ADDRESS/32      md5
+    ```
+
+   #### _Optional_
+
+    ```sh
+    vim /path/to/pgdata/postgresql.conf
+
+    # optionally set the following
+    # it will tighten security by only allowing the host to connect
+    # listen_addresses = 'CONTAINER_IP_ADDRESS'
     ```
 
 1. Start the container for production use
