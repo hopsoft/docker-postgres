@@ -51,7 +51,6 @@ _No roles/users or databases have been created._
     ```sql
     CREATE ROLE root SUPERUSER LOGIN PASSWORD 'secret';
     CREATE DATABASE root OWNER root;
-    \q
     ```
 
    _Be sure to change the username/password to something more secure._
@@ -63,7 +62,7 @@ _No roles/users or databases have been created._
     docker rm -v postgres_setup
     ```
 
-## Production Usage
+## Production Use
 
 1. Modify the configuration files for production use
 
