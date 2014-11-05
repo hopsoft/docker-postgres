@@ -90,7 +90,7 @@ _No roles/users or databases have been created._
 1. Start the container for production use
 
     ```sh
-    docker run --name pg -d -p 5432:5432 -v /path/to/pgdata:/pgdata hopsoft/postgres:9.3
+    docker run --name pg --restart=always -d -p 5432:5432 -v /path/to/pgdata:/pgdata hopsoft/postgres:9.3
     ```
 
 1. Connect to postgres
