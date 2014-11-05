@@ -5,95 +5,97 @@ No users have been created for you.
 
 ## Starting the container for the first time
 
-#### First, create the database instance & associated files
+1. Create a directory on the __host__ to hold the `pgdata` files
 
-```sh
-sudo mkdir /opt/pgdata
-sudo docker run --name postgres_setup -d -p :5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
-sudo docker stop postgres_setup
-```
+    ```sh
+    sudo mkdir /path/to/pgdata
+    ```
 
-#### Second, modify the configuration files so you can create a superuser
+1. Start & stop the container to create the `pgdata` files
 
-```sh
-sudo vim /opt/pgdata/postgresql.conf
+    ```sh
+    sudo docker run --name postgres_setup -d -p :5432 -v /path/to/pgdata:/pgdata hopsoft/postgres:9.3
+    sudo docker stop postgres_setup
+    ```
 
-# set the following
-# listen_addresses = '*'
-```
+1. Update the config files
 
-```sh
-sudo vim /opt/pgdata/pg_hba.conf
+   Note: This config setup is insecure & temporary. We only use it to create a superuser.
 
-# add the following line
-# TYPE    DATABASE        USER            ADDRESS                 METHOD
-# host    all             postgres        0.0.0.0/0               trust
-```
+    ```sh
+    sudo vim /opt/pgdata/postgresql.conf
 
-__Warning__: The above configuration allows anyone to connect as the postgres super user.
+    # set the following
+    # listen_addresses = '*'
+    ```
 
-#### Third, start the container & create a superuser
+    ```sh
+    sudo vim /opt/pgdata/pg_hba.conf
 
-```
-sudo docker start postgres_setup
-container_ip="$(sudo docker inspect postgres_setup | grep IPAddress | cut -d '"' -f 4)"
-psql -h "$container_ip" -U postgres
-```
+    # add the following line
+    # TYPE    DATABASE        USER            ADDRESS                 METHOD
+    # host    all             postgres        0.0.0.0/0               trust
+    ```
 
-```sql
-CREATE ROLE root SUPERUSER LOGIN PASSWORD 'secret';
-CREATE DATABASE root OWNER root;
-```
+1. Start the container & create a superuser
 
-__Note__: Be sure to change the username/password to something more secure.
+    ```sh
+    sudo docker start postgres_setup
+    container_ip="$(sudo docker inspect postgres_setup | grep IPAddress | cut -d '"' -f 4)"
+    psql -h "$container_ip" -U postgres
+    ```
 
-```
-\q
-sudo docker stop postgres_setup
-sudo docker rm postgres_setup
-```
+    ```sql
+    CREATE ROLE root SUPERUSER LOGIN PASSWORD 'secret';
+    CREATE DATABASE root OWNER root;
+    \q
+    ```
 
-#### Fourth, start the container for production use
+   Note: Be sure to change the username/password to something more secure.
 
-```sh
-sudo docker run --name postgres -d -p 5432:5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
+1. Stop & remove the setup container
 
-# optionally run with a random host port (perhaps a little more secure)
-sudo docker run --name postgres -d -p :5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
-```
+    ```sh
+    sudo docker stop postgres_setup
+    sudo docker rm -v postgres_setup
+    ```
 
-#### Fifth, modify the configuration files for production use
+1. Modify the configuration files for production use
 
-```sh
-sudo vim /opt/pgdata/postgresql.conf
+    ```sh
+    sudo vim /path/to/pgdata/postgresql.conf
 
-# optionally set the following
-# it will tighten security by only allowing the host to connect
-# listen_addresses = 'CONTAINER_IP_ADDRESS'
-```
+    # optionally set the following
+    # it will tighten security by only allowing the host to connect
+    # listen_addresses = 'CONTAINER_IP_ADDRESS'
+    ```
 
-```sh
-sudo vim /opt/pgdata/pg_hba.conf
+    ```sh
+    sudo vim /path/to/pgdata/pg_hba.conf
 
-# delete this line
-# TYPE    DATABASE        USER            ADDRESS                 METHOD
-# host    all             postgres        0.0.0.0/0               trust
-#
-# add one of the following line(s)... the second is more secure
-# TYPE    DATABASE        USER            ADDRESS                 METHOD
-# host    all             root            0.0.0.0/0               md5
-# host    all             root            HOST_IP_ADDRESS/32      md5
-```
+    # delete this line
+    # TYPE    DATABASE        USER            ADDRESS                 METHOD
+    # host    all             postgres        0.0.0.0/0               trust
+    #
+    # add one of the following line(s)... the second is more secure
+    # TYPE    DATABASE        USER            ADDRESS                 METHOD
+    # host    all             root            0.0.0.0/0               md5
+    # host    all             root            HOST_IP_ADDRESS/32      md5
+    ```
 
-```
-docker restart postgres
-```
+1. Start the container for production use
 
-```
-container_ip="$(sudo docker inspect postgres | grep IPAddress | cut -d '"' -f 4)"
-psql -h "$container_ip" -U root
-\q
-```
+    ```sh
+    sudo docker run --name postgres -d -p 5432:5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
+    ```
+
+1. Connect to postgres
+
+    ```
+    container_ip="$(sudo docker inspect postgres | grep IPAddress | cut -d '"' -f 4)"
+    psql -h "$container_ip" -U root
+    \q
+    ```
 
 ## Building the image
 
