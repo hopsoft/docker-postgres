@@ -26,14 +26,14 @@ _No roles/users or databases have been created._
    _This config setup is insecure & temporary. We only use it to create a superuser._
 
     ```sh
-    vim /opt/pgdata/postgresql.conf
+    vim /path/to/pgdata/postgresql.conf
 
     # set the following
     # listen_addresses = '*'
     ```
 
     ```sh
-    vim /opt/pgdata/pg_hba.conf
+    vim /path/to/pgdata/pg_hba.conf
 
     # add the following line
     # TYPE    DATABASE        USER            ADDRESS                 METHOD
@@ -90,7 +90,7 @@ _No roles/users or databases have been created._
 1. Start the container for production use
 
     ```sh
-    docker run --name postgres -d -p 5432:5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
+    docker run --name postgres -d -p 5432:5432 -v /path/to/pgdata:/pgdata hopsoft/postgres:9.3
     ```
 
 1. Connect to postgres
