@@ -6,19 +6,19 @@ with [contrib](http://www.postgresql.org/docs/9.3/static/contrib.html),
 
 _No roles/users or databases have been created._
 
-## Starting the container for the first time
+## Setup
 
 1. Create a directory on the __host__ to hold the `pgdata` files
 
     ```sh
-    sudo mkdir /path/to/pgdata
+    mkdir /path/to/pgdata
     ```
 
 1. Start & stop the container to create the `pgdata` files
 
     ```sh
-    sudo docker run --name postgres_setup -d -p :5432 -v /path/to/pgdata:/pgdata hopsoft/postgres:9.3
-    sudo docker stop postgres_setup
+    docker run --name postgres_setup -d -p :5432 -v /path/to/pgdata:/pgdata hopsoft/postgres:9.3
+    docker stop postgres_setup
     ```
 
 1. Update the config files
@@ -26,14 +26,14 @@ _No roles/users or databases have been created._
    Note: This config setup is insecure & temporary. We only use it to create a superuser.
 
     ```sh
-    sudo vim /opt/pgdata/postgresql.conf
+    vim /opt/pgdata/postgresql.conf
 
     # set the following
     # listen_addresses = '*'
     ```
 
     ```sh
-    sudo vim /opt/pgdata/pg_hba.conf
+    vim /opt/pgdata/pg_hba.conf
 
     # add the following line
     # TYPE    DATABASE        USER            ADDRESS                 METHOD
@@ -43,8 +43,8 @@ _No roles/users or databases have been created._
 1. Start the container & create a superuser
 
     ```sh
-    sudo docker start postgres_setup
-    container_ip="$(sudo docker inspect postgres_setup | grep IPAddress | cut -d '"' -f 4)"
+    docker start postgres_setup
+    container_ip="$(docker inspect postgres_setup | grep IPAddress | cut -d '"' -f 4)"
     psql -h "$container_ip" -U postgres
     ```
 
@@ -59,14 +59,16 @@ _No roles/users or databases have been created._
 1. Stop & remove the setup container
 
     ```sh
-    sudo docker stop postgres_setup
-    sudo docker rm -v postgres_setup
+    docker stop postgres_setup
+    docker rm -v postgres_setup
     ```
+
+## Production Usage
 
 1. Modify the configuration files for production use
 
     ```sh
-    sudo vim /path/to/pgdata/postgresql.conf
+    vim /path/to/pgdata/postgresql.conf
 
     # optionally set the following
     # it will tighten security by only allowing the host to connect
@@ -74,7 +76,7 @@ _No roles/users or databases have been created._
     ```
 
     ```sh
-    sudo vim /path/to/pgdata/pg_hba.conf
+    vim /path/to/pgdata/pg_hba.conf
 
     # delete this line
     # TYPE    DATABASE        USER            ADDRESS                 METHOD
@@ -89,18 +91,32 @@ _No roles/users or databases have been created._
 1. Start the container for production use
 
     ```sh
-    sudo docker run --name postgres -d -p 5432:5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
+    docker run --name postgres -d -p 5432:5432 -v /opt/pgdata:/pgdata hopsoft/postgres:9.3
     ```
 
 1. Connect to postgres
 
-    ```
-    container_ip="$(sudo docker inspect postgres | grep IPAddress | cut -d '"' -f 4)"
+    ```sh
+    container_ip="$(docker inspect postgres | grep IPAddress | cut -d '"' -f 4)"
     psql -h "$container_ip" -U root
-    \q
     ```
 
-## Building the image
+## Configuration Changes
+
+1. Modify the configuration files
+
+    ```sh
+    vim /path/to/pgdata/postgresql.conf
+    vim /path/to/pgdata/pg_hba.conf
+    ```
+
+1. Restart the container
+
+    ```sh
+    docker restart postgres
+    ```
+
+## Building the Image
 
 __Note__: This is only for those wanting to build the image themselves.
 
@@ -108,9 +124,5 @@ __Note__: This is only for those wanting to build the image themselves.
 git clone https://github.com/hopsoft/docker-postgres.git
 cd docker-postgres
 vagrant up
-sudo docker build -t hopsoft/postgres /vagrant
+docker build -t hopsoft/postgres /vagrant
 ```
-
-## TODO
-
-- Add PostGIS support
