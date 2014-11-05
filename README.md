@@ -17,7 +17,7 @@ _No roles/users or databases have been created._
 1. Start & stop the container to create the `pgdata` files
 
     ```sh
-    docker run --name pg_setup -d -p :5432 -v /path/to/pgdata:/pgdata hopsoft/postgres:9.3
+    docker run --name pg_setup -d -p :5432 -v /path/to/pgdata:/pgdata hopsoft/postgres
     docker stop pg_setup
     ```
 
@@ -79,7 +79,7 @@ _No roles/users or databases have been created._
     # host    all             root            HOST_IP_ADDRESS/32      md5
     ```
 
-   #### _Optional_
+   #### Optional
 
     ```sh
     vim /path/to/pgdata/postgresql.conf
@@ -92,7 +92,7 @@ _No roles/users or databases have been created._
 1. Start the container for production use
 
     ```sh
-    docker run --name pg --restart=always -d -p 5432:5432 -v /path/to/pgdata:/pgdata hopsoft/postgres:9.3
+    docker run --name pg --restart=always -d -p 5432:5432 -v /path/to/pgdata:/pgdata hopsoft/postgres
     ```
 
 1. Connect to postgres
